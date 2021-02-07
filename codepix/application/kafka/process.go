@@ -27,8 +27,8 @@ func NewKafkaProcessor(database *gorm.DB, producer *ckafka.Producer, deliveryCha
 
 func (k *KafkaProcessor) Consume() {
 	configMap := &ckafka.ConfigMap{
-		"bootstrap.servers": os.Getenv("kafkaBootstrapServers"),
-		"group.id":          os.Getenv("kafkaConsumerGroupId"),
+		"bootstrap.servers": os.Getenv("KAFKA_BOOTSTRAP_SERVERS"),
+		"group.id":          os.Getenv("KAFKA_CONSUMER_GROUP_ID"),
 		"auto.offset.reset": "earliest",
 	}
 	c, err := ckafka.NewConsumer(configMap)
@@ -37,7 +37,7 @@ func (k *KafkaProcessor) Consume() {
 		panic(err)
 	}
 
-	topics := []string{os.Getenv("kafkaTransactionTopic"), os.Getenv("kafkaTransactionConfirmationTopic")}
+	topics := []string{os.Getenv("KAFKA_TRANSACTION_TOPIC"), os.Getenv("KAFKA_TRANSACTION_CONFIRMATION_TOPIC")}
 	c.SubscribeTopics(topics, nil)
 
 	fmt.Println("kafka consumer has been started")
