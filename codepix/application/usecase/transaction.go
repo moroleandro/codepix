@@ -1,12 +1,14 @@
 package usecase
 
 import (
+    "log"
+    "errors"
     "github.com/moroleandro/poc-codepix/codepix/domain/model"
 )
 
 type TransactionUseCase struct {
-    TransactionRepository model.TransactionRepositoryInterface
-    PixRepository model.PixRepositoryInterface
+	TransactionRepository model.TransactionRepositoryInterface
+	PixRepository         model.PixKeyRepositoryInterface
 }
 
 func (t *TransactionUseCase) Register(accountId string, amount float64, pixKeyto string, pixKeyKindTo string, description string, id string) (*model.Transaction, error) {
@@ -31,7 +33,7 @@ func (t *TransactionUseCase) Register(accountId string, amount float64, pixKeyto
 		return transaction, nil
 	}
 
-	return nil, errors.New("Unable to process this transaction")
+	return nil, errors.New("unable to process this transaction")
 
 }
 
@@ -82,5 +84,4 @@ func (t *TransactionUseCase) Error(transactionId string, reason string) (*model.
 	}
 
 	return transaction, nil
-
 }

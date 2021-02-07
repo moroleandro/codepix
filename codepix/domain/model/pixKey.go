@@ -15,6 +15,10 @@ type PixKeyRepositoryInterface interface {
 	FindAccount(id string) (*Account, error)
 }
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 type PixKey struct {
 	Base      `valid:"required"`
 	Kind      string   `json:"kind" valid:"notnull"`
@@ -24,18 +28,20 @@ type PixKey struct {
 	Status    string   `json:"status" valid:"notnull"`
 }
 
-func (pixKey *PixKey) isValid() error {
-	_, err := govalidator.ValidateStruct(pixKey)
+func (p *PixKey) isValid() error {
+	_, err := govalidator.ValidateStruct(p)
 
-	if pixKey.Kind != "email" && pixKey.Kind != "cpf" {
-		return errors.New("Invalid type of key :/")
+	if p.Kind != "email" && p.Kind != "cpf" {
+		return errors.New("Invalid type of key")
 	}
 
-	if pixKey.Status != "active" && pixKey.Status != "inactive" {
-		return errors.New("Invalid status :/")
+	if p.Status != "active" && p.Status != "inactive" {
+		return errors.New("Invalid status")
 	}
 
-	if err != nil : err
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

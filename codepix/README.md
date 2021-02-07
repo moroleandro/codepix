@@ -1,4 +1,4 @@
-## Microsserviço CodePix
+# Microsserviço CodePix
 
 Esse microsserviço tem o objetivo de ser um hub de transações entre os bancos que simularemos nesta POC.
 
@@ -12,7 +12,7 @@ Utilizo Docker para que todos os serviços utilizados neste projeto sejam execut
 
 ### Como executar a aplicação
 - Acesse o container da aplicação executando: `docker exec -it codepix_app bash`
-- Rode `go run cmd/codepix/main.go`
+- Rode `go run main.go grpc` ou `go run main.go grpc --port 50052`
 
 ### Serviços utilizados ao executar o docker-compose
 
@@ -24,12 +24,37 @@ Utilizo Docker para que todos os serviços utilizados neste projeto sejam execut
 - Confluent control center
 - ZooKeeper
 
-### Comando para gerar arquivos pb
+---
+## Comandos utilizados 
+
+#### Comando para gerar arquivos pb(/codepix/application/grpc/pb/)
 ```buildoutcfg
 protoc --go_out=application/grpc/pb --go_opt=paths=source_relative --go-grpc_out=application/grpc/pb --go-grpc_opt=paths=source_relative --proto_path=application/grpc/protofiles application/grpc/protofiles/*.proto
 ```
+.
+#### Comando interativo do servidor gRPC - container: codepix_app_1
+```buildoutcfg
+evans -r repl
 
-## Autor
+##examples##
+$ call RegisterPixKey
+> cpf
+> 123456789
+> 1
+
+$ call Find
+> qrcode
+> testeteste
+```
+
+#### Comando Cobra (command line interface) - codepix/cmd/grpc.go 
+```buildoutcfg
+cobra init --pkg-name codepix
+```
+
+---
+
+### Autor
 @moroleandro
 
  

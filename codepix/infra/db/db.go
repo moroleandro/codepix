@@ -7,16 +7,16 @@ import (
 	"path/filepath"
 	"runtime"
 	"github.com/jinzhu/gorm"
-	"github.com/joho/godotoenv"
-	_"github.com/lib/pq"
-	_"gorm.io/driver/sqlite"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
+	_ "gorm.io/driver/sqlite"
 )
 
 func init() {
 	_, b, _, _ := runtime.Caller(0);
 	basepath := filepath.Dir(b)
 
-	err := godotenv.Load(basepath + "../../.env")
+	err := godotenv.Load(basepath + "/../../.env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env files")
